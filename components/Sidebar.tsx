@@ -18,13 +18,27 @@ import {
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false); // Mobile sidebar open/close
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const pathname = usePathname();
 
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.toggle('dark', isDark);
   }, [isDark]);
+
+  // Lock body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    // Cleanup if component unmounts with sidebar open
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const navLinks = [
     { href: '/dashboard', label: 'Dashboard', icon: <HiOutlineViewGrid size={20} /> },
@@ -73,6 +87,7 @@ export default function Sidebar() {
                       ? 'bg-white text-teal-700 dark:bg-teal-600 dark:text-white'
                       : 'hover:bg-white/20'
                   }`}
+                onClick={() => setIsOpen(false)} // Close sidebar on link click (mobile)
               >
                 <span className="min-w-[20px]">{icon}</span>
                 {label}
@@ -80,64 +95,65 @@ export default function Sidebar() {
             );
           })}
         </nav>
-{/* Bottom Section */}
-<div className="mt-auto flex flex-col space-y-4">
 
-  {/* Developer Portfolio Link - Rectangular & Wider */}
-  <div className="bg-white/10 backdrop-blur-sm border border-teal-400/50 hover:border-white rounded-2xl p-5 flex items-center gap-5 transition-all duration-300 group cursor-pointer w-full">
-    <div className="text-white group-hover:text-teal-300 transition-transform duration-300">
-      <HiUserCircle size={48} className="group-hover:scale-110" />
-    </div>
-    <div>
-      <a
-        href="#" // TODO: Replace with your portfolio link
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block text-white group-hover:text-teal-300 transition-colors"
-      >
-        <p className="font-semibold text-base">Developer</p>
-        <p className="text-sm text-teal-300 group-hover:text-white">Visit Portfolio</p>
-      </a>
-    </div>
-  </div>
+        {/* Bottom Section */}
+        <div className="mt-auto flex flex-col space-y-4">
 
-  {/* User Profile Info - Rectangular & Wider */}
-  <div className="bg-white/10 backdrop-blur-sm border border-white/20 hover:border-teal-400 rounded-2xl p-5 flex items-center gap-5 transition-all duration-300 cursor-pointer w-full">
-    <img
-      src="/profile.png"
-      alt="Puneet Profile"
-      className="w-14 h-14 rounded-full object-cover border-2 border-white/50 shadow-md hover:scale-105 transition-transform duration-300"
-    />
-    <div className="overflow-hidden">
-      <Link href="/profile" className="block leading-tight">
-        <p className="text-white font-semibold text-base truncate hover:text-teal-300 transition-colors">
-          Puneet
-        </p>
-        <p className="text-sm text-teal-300 truncate hover:text-white transition-colors">
-          puneetshukla043@gmail.com
-        </p>
-      </Link>
-    </div>
-  </div>
+          {/* Developer Portfolio Link */}
+          <div className="w-full rounded-xl border border-blue-500 bg-white/10 backdrop-blur-sm p-5 flex items-center gap-5 shadow-[0_0_8px_rgba(59,130,246,0.4)] hover:shadow-[0_0_12px_rgba(59,130,246,0.6)] transition-all duration-300 group cursor-pointer">
+            <div className="text-white group-hover:text-blue-300 transition-transform duration-300">
+              <HiUserCircle size={48} className="group-hover:scale-110" />
+            </div>
+            <div>
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-white group-hover:text-blue-300 transition-colors"
+              >
+                <p className="font-semibold text-base">Developer</p>
+                <p className="text-sm text-blue-300 group-hover:text-white">Visit Portfolio</p>
+              </a>
+            </div>
+          </div>
 
-  {/* Dark Mode Toggle */}
-  <label className="flex items-center justify-between cursor-pointer text-sm font-medium pt-2">
-    <span className="flex items-center gap-2">
-      {isDark ? <HiMoon /> : <HiSun />}
-      {isDark ? 'Dark Mode' : 'Light Mode'}
-    </span>
-    <div className="relative">
-      <input
-        type="checkbox"
-        className="sr-only peer"
-        checked={isDark}
-        onChange={() => setIsDark(!isDark)}
-      />
-      <div className="w-11 h-6 bg-gray-300 dark:bg-gray-700 rounded-full peer-checked:bg-teal-500 transition-colors" />
-      <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-300 peer-checked:translate-x-full" />
-    </div>
-  </label>
-</div>
+          {/* User Profile Info */}
+          <div className="w-full rounded-xl border border-blue-500 bg-white/10 backdrop-blur-sm p-5 flex items-center gap-5 shadow-[0_0_8px_rgba(59,130,246,0.4)] hover:shadow-[0_0_12px_rgba(59,130,246,0.6)] transition-all duration-300 cursor-pointer">
+            <img
+              src="/profile.png"
+              alt="Puneet Profile"
+              className="w-14 h-14 rounded-full object-cover border-2 border-white/50 shadow-md hover:scale-105 transition-transform duration-300"
+            />
+            <div className="overflow-hidden">
+              <Link href="/profile" className="block leading-tight" onClick={() => setIsOpen(false)}>
+                <p className="text-white font-semibold text-base truncate hover:text-blue-300 transition-colors">
+                  Puneet
+                </p>
+                <p className="text-sm text-blue-300 truncate hover:text-white transition-colors">
+                  puneetshukla043@gmail.com
+                </p>
+              </Link>
+            </div>
+          </div>
+
+          {/* Dark Mode Toggle */}
+          <label className="flex items-center justify-between cursor-pointer text-sm font-medium pt-2">
+            <span className="flex items-center gap-2">
+              {isDark ? <HiMoon /> : <HiSun />}
+              {isDark ? 'Dark Mode' : 'Light Mode'}
+            </span>
+            <div className="relative">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={isDark}
+                onChange={() => setIsDark(!isDark)}
+              />
+              <div className="w-11 h-6 bg-gray-300 dark:bg-gray-700 rounded-full peer-checked:bg-teal-500 transition-colors" />
+              <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-300 peer-checked:translate-x-full" />
+            </div>
+          </label>
+        </div>
 
       </aside>
 
