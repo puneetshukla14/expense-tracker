@@ -1,0 +1,277 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #15803d;
+  --primary-light: #22c55e;
+  --bg-light: #f0fdf4;
+  --text-dark: #1f2937;
+  --white: #ffffff;
+}
+
+.sidebar {
+  background-color: var(--primary-color);
+  color: var(--white);
+  height: 100vh;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+
+  /* Add this: extra left padding on mobile to avoid overlap with hamburger */
+  padding-left: 64px; /* enough space for button */
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    /* Remove extra left padding on desktop */
+    padding-left: 24px;
+  }
+}
+
+.sidebar h1 {
+  font-size: 24px;
+  margin-bottom: 32px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sidebar links styling */
+.sidebar-link {
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sidebar-link:hover {
+  background-color: var(--primary-light);
+}
+
+/* Optional: body base styles */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.sidebar h1 {
+  font-size: 24px;
+  margin-bottom: 32px;
+  white-space: nowrap; /* Prevents wrapping */
+  overflow: hidden;    /* Prevents overflow */
+  text-overflow: ellipsis; /* Adds ... if too long */
+}
+
+
+.sidebar {
+  width: 240px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  height: 100vh;
+  padding: 32px 24px;
+  position: fixed; /* changed from sticky */
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+  transition: transform 0.3s ease;
+}
+
+
+
+.sidebar {
+  width: 240px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  height: 100vh;
+  padding: 32px 24px;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h1 {
+  font-size: 24px;
+  margin-bottom: 32px;
+  white-space: nowrap; /* Prevents wrapping */
+  overflow: hidden;    /* Prevents overflow */
+  text-overflow: ellipsis; /* Adds ... if too long */
+}
+
+
+.sidebar a {
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.sidebar a:hover {
+  background-color: var(--primary-light);
+}
+
+.main {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--white);
+  border-left: 4px solid var(--primary-color);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.chart-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.chart-box {
+  height: 280px;
+  background: var(--white);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.form-row input,
+.form-row select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
+}
+
+
+
+/*Goals css */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/*expenses css */
+/* styles/expenses.css */
+.expenses-container {
+  padding: 20px;
+  background-color: white;
+  color: #034d23; /* Deep green */
+}
+
+.expense-form,
+.filters-panel {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.expense-form input,
+.expense-form select,
+.filters-panel input,
+.filters-panel select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.expense-form button,
+.filters-panel button {
+  background-color: #0da35e;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.expense-form button:hover,
+.filters-panel button:hover {
+  background-color: #087f49;
+}
+
+.expense-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f4fff7;
+}
+
+.expense-table th,
+.expense-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.expense-table th {
+  background-color: #d3f9e3;
+  color: #034d23;
+}
+
+
