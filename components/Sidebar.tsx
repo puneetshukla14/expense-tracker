@@ -41,22 +41,22 @@ export default function Sidebar() {
   }, [isDark]);
 
   // Scroll freeze using position fixed for better compatibility
-  useEffect(() => {
-    if (isOpen) {
-      // Save scroll position to restore later
-      const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
+useEffect(() => {
+  if (isOpen) {
+    const scrollY = window.scrollY;
+    document.body.classList.add('overflow-hidden');
+    document.body.style.top = `-${scrollY}px`;
+    document.body.dataset.scrollY = scrollY.toString();
 
-      return () => {
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        window.scrollTo(0, scrollY);
-      };
-    }
-  }, [isOpen]);
+    return () => {
+      const storedY = document.body.dataset.scrollY || '0';
+      document.body.classList.remove('overflow-hidden');
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(storedY));
+    };
+  }
+}, [isOpen]);
+
 
   // Navigation links data
   const navLinks = [
@@ -81,14 +81,15 @@ export default function Sidebar() {
       </button>
 
       {/* Sidebar */}
-      <aside
-        id="sidebar"
-        className={`fixed top-0 left-0 h-screen w-64 bg-teal-700 text-white dark:bg-black dark:text-white
-          z-[50] flex flex-col p-6 transform transition-transform duration-300 ease-in-out
-          ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
-          shadow-lg md:shadow-none flex-shrink-0`}
-        aria-hidden={!isOpen && window.innerWidth < 768}
-      >
+<aside
+  id="sidebar"
+  className={`fixed top-0 left-0 h-screen w-64 bg-teal-700 text-white dark:bg-black dark:text-white
+    z-[50] flex flex-col p-6 transform transition-transform duration-300 ease-in-out
+    ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
+    shadow-lg md:shadow-none flex-shrink-0 overflow-y-auto`}
+  aria-hidden={!isOpen && window.innerWidth < 768}
+>
+
         {/* Logo */}
         <div className="mb-8 flex items-center justify-center md:justify-start">
           <h1 className="text-3xl font-extrabold tracking-tight whitespace-nowrap select-none">
@@ -172,7 +173,7 @@ export default function Sidebar() {
 
           {/* Dark Mode Toggle */}
           <label
-            className="flex items-center justify-between cursor-pointer text-sm font-medium pt-2"
+            className="flex items-center justify-between cursor-pointer text-sm font-medium pt-2" 
             htmlFor="dark-mode-toggle"
           >
             <span className="flex items-center gap-2 select-none">
